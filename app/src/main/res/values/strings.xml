@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Cool Weather</string>
+    <string name="city_placeholder">Input city name</string>
+    <string name="search_text">Search</string>
+    <string name="temperature_placeholder">- °C</string>
+    <string name="conditions_placeholder">unknown conditions</string>
+    <string name="input_error">You should input at least 3 characters</string>
+    <string name="service_error">Something went wrong. Please try again later.</string>
+</resources>
