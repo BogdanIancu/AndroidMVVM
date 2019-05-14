@@ -6,5 +6,4 @@
     <string name="conditions_placeholder">unknown conditions</string>
     <string name="input_error">You should input at least 3 characters</string>
     <string name="service_error">Something went wrong. Please try again later.</string>
-    <string name="api_key">7b10426ee90376dc3d6525f847128b35</string>
 </resources>

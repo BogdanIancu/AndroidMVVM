@@ -1,7 +1,5 @@
 package ro.facemsoft.coolweather.model;
 
-import android.graphics.Bitmap;
-
 public class Weather {
     private int temperature;
     private String description;
