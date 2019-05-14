@@ -1,5 +1,6 @@
 package ro.facemsoft.coolweather.services;
 
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
@@ -7,7 +8,6 @@ import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -19,15 +19,17 @@ import javax.net.ssl.HttpsURLConnection;
 import ro.facemsoft.coolweather.model.Weather;
 
 public class AsyncTaskWeatherService extends AsyncTask<String, Void, Weather> {
-    private final static String OPEN_WEATHER_API_KEY = "YOUR API KEY HERE";
+    private final static String OPEN_WEATHER_API_KEY = "7b10426ee90376dc3d6525f847128b35";
     private TextView temperatureTextView;
     private TextView descriptionTextView;
     private ImageView imageView;
+    private ImageDownloadingService imageService;
 
     public AsyncTaskWeatherService(TextView temperatureTextView, TextView descriptionTextView, ImageView imageView) {
         this.temperatureTextView = temperatureTextView;
         this.descriptionTextView = descriptionTextView;
         this.imageView = imageView;
+        imageService = new ImageDownloadingService();
     }
 
     @Override
@@ -55,6 +57,8 @@ public class AsyncTaskWeatherService extends AsyncTask<String, Void, Weather> {
                 JSONObject weatherObject = weatherArray.getJSONObject(0);
                 weather.setDescription(weatherObject.getString("description"));
                 String icon = weatherObject.getString("icon");
+                Bitmap image = imageService.downloadImage(icon);
+                weather.setImage(image);
                 JSONObject mainObject = json.getJSONObject("main");
                 weather.setTemperature((int)mainObject.getDouble("temp"));
                 return weather;
@@ -73,6 +77,6 @@ public class AsyncTaskWeatherService extends AsyncTask<String, Void, Weather> {
 
         temperatureTextView.setText(weather.getTemperature() + " °C");
         descriptionTextView.setText(weather.getDescription());
-        //imageView.setImageBitmap(weather.getImage());
+        imageView.setImageBitmap(weather.getImage());
     }
 }

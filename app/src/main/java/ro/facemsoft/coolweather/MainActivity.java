@@ -8,10 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import ro.facemsoft.coolweather.model.Weather;
-import ro.facemsoft.coolweather.services.AbstractWeatherService;
 import ro.facemsoft.coolweather.services.AsyncTaskWeatherService;
-import ro.facemsoft.coolweather.services.DummyWeatherService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,13 +16,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView temperatureTextView = null;
     private TextView descriptionTextView = null;
     private ImageView imageView = null;
-    private AbstractWeatherService weatherService = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        weatherService = new DummyWeatherService();
 
         cityEditText = findViewById(R.id.cityEditText);
         temperatureTextView = findViewById(R.id.temperatureTextView);
