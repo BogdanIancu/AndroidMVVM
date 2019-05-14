@@ -9,18 +9,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ro.facemsoft.coolweather.model.Weather;
 import ro.facemsoft.coolweather.presenters.MainActivityPresenter;
 import ro.facemsoft.coolweather.services.AsyncTaskWeatherService;
 
 public class MainActivity extends AppCompatActivity implements MainActivityPresenter.View {
 
-    private EditText cityEditText = null;
-    private TextView temperatureTextView = null;
-    private TextView descriptionTextView = null;
-    private ImageView imageView = null;
+    @BindView(R.id.cityEditText) EditText cityEditText;
+    @BindView(R.id.temperatureTextView) TextView temperatureTextView;
+    @BindView(R.id.descriptionTextView) TextView descriptionTextView;
+    @BindView(R.id.weatherImageView) ImageView imageView;
     private MainActivityPresenter presenter = null;
 
     @Override
@@ -28,14 +33,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cityEditText = findViewById(R.id.cityEditText);
-        temperatureTextView = findViewById(R.id.temperatureTextView);
-        descriptionTextView = findViewById(R.id.descriptionTextView);
-        imageView = findViewById(R.id.weatherImageView);
+        ButterKnife.bind(this);
 
         presenter = new MainActivityPresenter(this);
     }
 
+    @OnClick(R.id.searchButton)
     public void searchClickHandler(View view) {
         String city = cityEditText.getText().toString();
         try {
@@ -68,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
     }
 
     @Override
-    public void updateImage(Bitmap value) {
-        imageView.setImageBitmap(value);
+    public void updateImage(String value) {
+        Glide.with(this).load(value).into(imageView);
     }
 
     @Override

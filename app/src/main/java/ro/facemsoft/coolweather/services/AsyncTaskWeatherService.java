@@ -6,6 +6,9 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,16 +19,15 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import ro.facemsoft.coolweather.converters.WeatherConverter;
 import ro.facemsoft.coolweather.model.Weather;
 import ro.facemsoft.coolweather.presenters.MainActivityPresenter;
 
 public class AsyncTaskWeatherService extends AsyncTask<String, Void, Weather> {
     private final static String OPEN_WEATHER_API_KEY = "7b10426ee90376dc3d6525f847128b35";
-    private ImageDownloadingService imageService;
     private MainActivityPresenter.View view;
 
     public AsyncTaskWeatherService(MainActivityPresenter.View view) {
-        imageService = new ImageDownloadingService();
         this.view = view;
     }
 
@@ -48,17 +50,11 @@ public class AsyncTaskWeatherService extends AsyncTask<String, Void, Weather> {
                     stringBuilder.append(line);
                 }
                 String result = stringBuilder.toString();
-                Weather weather = new Weather();
-                JSONObject json = new JSONObject(result);
-                JSONArray weatherArray = json.getJSONArray("weather");
-                JSONObject weatherObject = weatherArray.getJSONObject(0);
-                weather.setDescription(weatherObject.getString("description"));
-                String icon = weatherObject.getString("icon");
-                Bitmap image = imageService.downloadImage(icon);
-                weather.setImage(image);
-                JSONObject mainObject = json.getJSONObject("main");
-                weather.setTemperature((int)mainObject.getDouble("temp"));
-                return weather;
+
+                GsonBuilder builder = new GsonBuilder();
+                builder.registerTypeAdapter(Weather.class, new WeatherConverter());
+                Gson gson = builder.create();
+                return gson.fromJson(result, Weather.class);
             }
             catch (Exception e) {
                 Log.e("AsyncTask", e.getMessage());
@@ -74,7 +70,7 @@ public class AsyncTaskWeatherService extends AsyncTask<String, Void, Weather> {
         if(weather != null) {
             view.updateDescription(weather.getDescription());
             view.updateTemperature(weather.getTemperature());
-            view.updateImage(weather.getImage());
+            view.updateImage(weather.getImageUrl());
         }
         else {
             view.displayServiceErrorMessage();

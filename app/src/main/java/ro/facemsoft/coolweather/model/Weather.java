@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 public class Weather {
     private int temperature;
     private String description;
-    private Bitmap image;
+    private String imageUrl;
 
     public int getTemperature() {
         return temperature;
@@ -23,11 +23,11 @@ public class Weather {
         this.description = description;
     }
 
-    public Bitmap getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(Bitmap image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        android:onClick="searchClickHandler"
         android:text="@string/search_text"
         app:layout_constraintStart_toEndOf="@+id/cityEditText"
         app:layout_constraintTop_toTopOf="parent" />
